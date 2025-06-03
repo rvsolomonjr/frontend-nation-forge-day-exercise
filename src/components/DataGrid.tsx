@@ -53,7 +53,7 @@ const getProfitAndLossCellStyle = (params: CellClassParams) => {
 
 // Row Selection Options
 const rowSelection = {
-  // TODO: Implement Row Selection Strategy (Step 7)
+  mode: 'singleRow',
 } as RowSelectionOptions;
 
 // On First Data Rendered Event
@@ -113,6 +113,7 @@ const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
       rowData={rowData}
       columnDefs={colDefs}
       defaultColDef={defaultColDef}
+      rowSelection={rowSelection}
     />
   );
 };
