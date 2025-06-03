@@ -65,12 +65,33 @@ const onFirstDataRendered = (params: FirstDataRenderedEvent) => {
     },
     // Define Chart Type
     chartType: 'treemap',
+    // Override Chart Defaults
+    chartThemeOverrides: {
+      common: {
+        // Set Custom Title
+        title: {
+          text: 'Portfolio Allocation',
+          enabled: true,
+        },
+        // Add Callback
+        listeners: {
+          seriesNodeClick: (event) => {
+            // Get Selected Node using ID (Ticker)
+            const selectedNode = params.api.getRowNode(event.datum.ticker);
+            // Set The Node as Selected
+            selectedNode?.setSelected(true);
+            // Scroll to Node
+            params.api.ensureIndexVisible(selectedNode?.rowIndex ?? 0, null);
+          },
+        },
+      },
+    },
   });
 };
 
 // Set Row ID Strategy
 const getRowId = (params: GetRowIdParams): string => {
-  // TODO: Implement Row ID strategy to uniquely identify each row (Bonus Task)
+  return params.data.ticker;
 };
 
 const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
@@ -124,6 +145,7 @@ const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
       rowSelection={rowSelection}
       onSelectionChanged={onSelectionChanged}
       onFirstDataRendered={onFirstDataRendered}
+      getRowId={getRowId}
     />
   );
 };
