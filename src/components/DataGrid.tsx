@@ -43,7 +43,12 @@ const calculateProfitAndLoss = (params: ValueGetterParams) => {
 
 // Profit And Loss Cell Style
 const getProfitAndLossCellStyle = (params: CellClassParams) => {
-  // TODO: Implement conditional cell styles for Profit & Loss Column (Step 6)
+  if (params.value < 0) {
+    return { color: 'red' };
+  } else if (params.value > 0) {
+    return { color: 'green' };
+  }
+  return null;
 };
 
 // Row Selection Options
@@ -93,6 +98,7 @@ const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
         headerName: 'Profit & Loss',
         valueGetter: calculateProfitAndLoss,
         valueFormatter: currencyFormatter,
+        cellStyle: getProfitAndLossCellStyle,
       },
     ];
   }, []);
