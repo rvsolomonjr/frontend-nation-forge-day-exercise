@@ -67,6 +67,7 @@ const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
     return [
       {
         field: 'ticker',
+        cellRenderer: TickerCellRenderer,
       },
       {
         field: 'shares',
