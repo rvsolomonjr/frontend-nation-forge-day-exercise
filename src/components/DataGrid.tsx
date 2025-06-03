@@ -6,6 +6,7 @@ import { DataGridProps, Ticker } from '../utils/types';
 // AG Grid Imports
 import { AgGridReact } from 'ag-grid-react';
 import {
+  CellClassParams,
   ColDef,
   FirstDataRenderedEvent,
   RowNodeSelectedEvent,
@@ -31,6 +32,11 @@ const currencyFormatter = (params: ValueFormatterParams): string => {
 // Profit And Loss Value Getter
 const calculateProfitAndLoss = (params: ValueGetterParams) => {
   // TODO: Implement profit and loss calculation
+};
+
+// Profit And Loss Cell Style
+const getProfitAndLossCellStyle = (params: CellClassParams) => {
+  // TODO: Implement conditional cell styles for Profit & Loss Column
 };
 
 const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
