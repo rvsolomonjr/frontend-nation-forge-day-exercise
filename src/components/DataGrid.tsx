@@ -47,17 +47,12 @@ const rowSelection = {
 
 // On First Data Rendered Event
 const onFirstDataRendered = (params: FirstDataRenderedEvent) => {
-  // TODO:  Create Integrated TreeMap Chart on Load (Step 9)
-};
-
-// Create Integrated TreeMap Chart
-const createIntegratedTreeMapChart = (params: FirstDataRenderedEvent) => {
-  // TODO: Implement integrated treeMap chart creation (Step 9)
+  // TODO:  Create Integrated TreeMap Chart on Load (Step 10)
 };
 
 // Set Row ID Strategy
 const getRowId = (params: GetRowIdParams): string => {
-  // TODO: Implement Row ID strategy to uniquely identify each row (Step 10)
+  // TODO: Implement Row ID strategy to uniquely identify each row (Bonus Task)
 };
 
 const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
