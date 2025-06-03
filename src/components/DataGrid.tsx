@@ -27,7 +27,10 @@ const defaultColDef = {
 
 // Currency Value Formatter
 const currencyFormatter = (params: ValueFormatterParams): string => {
-  // TODO: Implement currency formatter (Step 2)
+  return new Intl.NumberFormat('gb-GB', {
+    style: 'currency',
+    currency: 'GBP',
+  }).format(params.value);
 };
 
 // Profit And Loss Value Getter
@@ -70,9 +73,11 @@ const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
       },
       {
         field: 'averagePrice',
+        valueFormatter: currencyFormatter,
       },
       {
         field: 'currentPrice',
+        valueFormatter: currencyFormatter,
       },
       {
         field: 'simplePriceHistory',
