@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.componentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 18px;
+  margin-top: 84px;
+}
+
+.chartsContainer {
+  height: 500px;
+  min-height: 500px;
+  padding: 0 24px;
+}
+
+.gridContainer {
+  min-height: 400px;
+  height: 100%;
+  gap: 12px;
+  padding: 0 82px 64px 64px;
+}
+
+.footerLinksContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
