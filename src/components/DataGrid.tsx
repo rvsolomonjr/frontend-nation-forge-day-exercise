@@ -11,6 +11,7 @@ import {
   RowNodeSelectedEvent,
   RowSelectionOptions,
   ValueFormatterParams,
+  ValueGetterParams,
 } from 'ag-grid-community';
 
 // Cell Renderers
@@ -25,6 +26,11 @@ const defaultColDef = {
 // Currency Value Formatter
 const currencyFormatter = (params: ValueFormatterParams): string => {
   // TODO: Implement currency formatter
+};
+
+// Profit And Loss Value Getter
+const calculateProfitAndLoss = (params: ValueGetterParams) => {
+  // TODO: Implement profit and loss calculation
 };
 
 const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
