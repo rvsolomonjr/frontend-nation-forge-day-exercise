@@ -35,7 +35,10 @@ const currencyFormatter = (params: ValueFormatterParams): string => {
 
 // Profit And Loss Value Getter
 const calculateProfitAndLoss = (params: ValueGetterParams) => {
-  // TODO: Implement profit and loss calculation (Step 5)
+  const shares = params.data.shares;
+  const averageValue = shares * params.data.averagePrice;
+  const currentValue = shares * params.data.currentPrice;
+  return currentValue - averageValue;
 };
 
 // Profit And Loss Cell Style
@@ -84,6 +87,12 @@ const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
         field: 'simplePriceHistory',
         headerName: 'Last 30d',
         cellRenderer: 'agSparklineCellRenderer',
+      },
+      {
+        field: 'PnL',
+        headerName: 'Profit & Loss',
+        valueGetter: calculateProfitAndLoss,
+        valueFormatter: currencyFormatter,
       },
     ];
   }, []);
