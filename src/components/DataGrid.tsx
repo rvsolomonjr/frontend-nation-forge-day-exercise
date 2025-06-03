@@ -17,7 +17,7 @@ import {
 } from 'ag-grid-community';
 
 // Cell Renderers
-import TickerCellRenderer from './TickerCellRenderer';
+import { TickerCellRenderer } from './TickerCellRenderer';
 
 // Default Col Def (Applies to All Columns)
 const defaultColDef = {
