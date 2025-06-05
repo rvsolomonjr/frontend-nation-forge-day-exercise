@@ -1,23 +1,21 @@
 // React
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-// Styles & Demo Utils
 import Header from './layout/Header';
 import { getData } from './utils/data';
 import './App.css';
 
-// AG Grid Module Registration
-import { AgChartsEnterpriseModule } from 'ag-charts-enterprise';
+// AG Grid Community Only
 import { ModuleRegistry } from 'ag-grid-community';
-import { AllEnterpriseModule } from 'ag-grid-enterprise';
+import { ClientSideRowModelModule } from 'ag-grid-community';
 
 // Custom Components
 import DataGrid from './components/DataGrid';
-import FinancialChart from './components/FinancialChart';
+import SimpleChart from './components/SimpleChart'; // Replace FinancialChart
 
-// AG Grid Module Registration (move outside component)
+// AG Grid Module Registration (Community only)
 ModuleRegistry.registerModules([
-  AllEnterpriseModule.with(AgChartsEnterpriseModule),
+  ClientSideRowModelModule,
 ]);
 
 function App() {
@@ -28,7 +26,7 @@ function App() {
       <Header />
       <div className="componentContainer">
         <div className="chartsContainer">
-          <FinancialChart selectedRow={selectedRow} />
+          <SimpleChart selectedRow={selectedRow} />
         </div>
         <div className="gridContainer">
           <DataGrid data={getData()} setSelectedRow={setSelectedRow} />

@@ -3,14 +3,13 @@ import React, { useCallback, useMemo } from 'react';
 // Types
 import { DataGridProps, Ticker } from '../utils/types';
 
-// AG Grid Imports
+// AG Grid Imports (Community only)
 import { AgGridReact } from 'ag-grid-react';
 import {
   CellClassParams,
   ColDef,
   FirstDataRenderedEvent,
   GetRowIdParams,
-  RowSelectionOptions,
   SelectionChangedEvent,
   ValueFormatterParams,
   ValueGetterParams,
@@ -21,68 +20,96 @@ import { TickerCellRenderer } from './TickerCellRenderer';
 
 // Default Col Def (Applies to All Columns)
 const defaultColDef = {
-  filter: true,
+  filter: true, // Basic filtering is available in community
   flex: 1,
 };
 
 // Currency Value Formatter
 const currencyFormatter = (params: ValueFormatterParams): string => {
-  // TODO: Implement currency formatter (Step 2)
+  return new Intl.NumberFormat('gb-GB', {
+    style: 'currency',
+    currency: 'GBP',
+  }).format(params.value);
 };
 
 // Profit And Loss Value Getter
 const calculateProfitAndLoss = (params: ValueGetterParams) => {
-  // TODO: Implement profit and loss calculation (Step 5)
+  const shares = params.data.shares;
+  const averageValue = shares * params.data.averagePrice;
+  const currentValue = shares * params.data.currentPrice;
+  return currentValue - averageValue;
 };
 
 // Profit And Loss Cell Style
 const getProfitAndLossCellStyle = (params: CellClassParams) => {
-  // TODO: Implement conditional cell styles for Profit & Loss Column (Step 6)
+  if (params.value < 0) {
+    return { color: 'red' };
+  } else if (params.value > 0) {
+    return { color: 'green' };
+  }
+  return null;
 };
 
-// Row Selection Options
-const rowSelection = {
-  // TODO: Implement Row Selection Strategy (Step 7)
-} as RowSelectionOptions;
-
-// On First Data Rendered Event
-const onFirstDataRendered = (params: FirstDataRenderedEvent) => {
-  // TODO:  Create Integrated TreeMap Chart on Load (Step 10)
+// Simple sparkline replacement using text
+const SimpleSparkline = (params: any) => {
+  const data = params.value || [];
+  if (data.length === 0) return '─';
+  
+  const trend = data[data.length - 1] > data[0] ? '📈' : '📉';
+  return `${trend} ${data.length} pts`;
 };
 
 // Set Row ID Strategy
 const getRowId = (params: GetRowIdParams): string => {
-  // TODO: Implement Row ID strategy to uniquely identify each row (Bonus Task)
+  return params.data.ticker;
 };
 
 const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
   // Data To be Displayed In The Data Grid
-  const rowData = useMemo<Ticker[]>(() => data, []);
+  const rowData = useMemo<Ticker[]>(() => data, [data]);
 
-  // Column Definitions
+  // Column Definitions (Community features only)
   const colDefs = useMemo<ColDef[]>(() => {
     return [
       {
         field: 'ticker',
+        cellRenderer: TickerCellRenderer,
       },
       {
         field: 'shares',
       },
       {
         field: 'averagePrice',
+        valueFormatter: currencyFormatter,
       },
       {
         field: 'currentPrice',
+        valueFormatter: currencyFormatter,
       },
       {
         field: 'simplePriceHistory',
+        headerName: 'Last 30d',
+        cellRenderer: SimpleSparkline, // Replace enterprise sparkline
+      },
+      {
+        field: 'PnL',
+        headerName: 'Profit & Loss',
+        valueGetter: calculateProfitAndLoss,
+        valueFormatter: currencyFormatter,
+        cellStyle: getProfitAndLossCellStyle,
       },
     ];
   }, []);
 
   // Selection Changed Event Handler
   const onSelectionChanged = useCallback((event: SelectionChangedEvent) => {
-    // TODO: Implement Selection Changed Event Handler to get currently selected row and pass its data to parent component (Step 7)
+    const currentlySelectedRowData = event.api.getSelectedNodes()[0]?.data;
+    setSelectedRow(currentlySelectedRowData);
+  }, [setSelectedRow]);
+
+  // Simplified first data rendered (no integrated charts in community)
+  const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
+    console.log('Grid data loaded successfully');
   }, []);
 
   return (
@@ -90,6 +117,10 @@ const DataGrid: React.FC<DataGridProps> = ({ data = [], setSelectedRow }) => {
       rowData={rowData}
       columnDefs={colDefs}
       defaultColDef={defaultColDef}
+      rowSelection="single" // Simplified row selection for community
+      onSelectionChanged={onSelectionChanged}
+      onFirstDataRendered={onFirstDataRendered}
+      getRowId={getRowId}
     />
   );
 };
